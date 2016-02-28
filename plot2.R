@@ -15,10 +15,13 @@ household_power_consumption <- read.csv(paste0(path,"household_power_consumption
 ## Create unified variable for date and time
 household_power_consumption$fulldate <- paste(household_power_consumption$Date,
                                               household_power_consumption$Time)
+
+## Convert to date type using lubridate function dmy_hms
 household_power_consumption$fulldate <- dmy_hms(household_power_consumption$fulldate)
 household_power_consumption$Global_active_power <- as.numeric(household_power_consumption$Global_active_power)
 
-# Select the necessary variables for plot 1, in the time range from
+# Select the necessary variables for plot 1, in the time range requested for the excersise
+# %>% is the piping operator imported with the library dplyr
 df_selection <- household_power_consumption %>%
         select(fulldate, Global_active_power) %>%
         filter(fulldate >= "2007-02-01 00:00:00" & fulldate <= "2007-02-03 00:00:00")

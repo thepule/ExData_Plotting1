@@ -12,10 +12,11 @@ household_power_consumption <- read.csv(paste0(path,"household_power_consumption
                                         sep=";", stringsAsFactors=FALSE)
 
 # Convert variables for plot 1 into the right format
+## Convert date using lubridate function dmy
 household_power_consumption$Date <- dmy(household_power_consumption$Date)
 household_power_consumption$Global_active_power <- as.numeric(household_power_consumption$Global_active_power)
 
-# Select the necessary variables for plot 1, in the time range from
+# Select the necessary variables for plot 1, in the time range requested for the excersise
 df_selection <- household_power_consumption %>%
                 select(Date, Global_active_power) %>%
                 filter(Date >= "2007-02-01" & Date <= "2007-02-02")

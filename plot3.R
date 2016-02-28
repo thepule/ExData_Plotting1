@@ -1,5 +1,5 @@
 ###########################################################################################
-# Code to import household power consumption and create plot2, as defined in assignment 1 of
+# Code to import household power consumption and create plot3, as defined in assignment 1 of
 # the exploratory analysis course in Coursera.
 ###########################################################################################
 
@@ -15,12 +15,14 @@ household_power_consumption <- read.csv(paste0(path,"household_power_consumption
 ## Create unified variable for date and time
 household_power_consumption$fulldate <- paste(household_power_consumption$Date,
                                               household_power_consumption$Time)
+## Convert to date type using lubridate function dmy_hms
 household_power_consumption$fulldate <- dmy_hms(household_power_consumption$fulldate)
 household_power_consumption$Sub_metering_1 <- as.numeric(household_power_consumption$Sub_metering_1)
 household_power_consumption$Sub_metering_2 <- as.numeric(household_power_consumption$Sub_metering_2)
 household_power_consumption$Sub_metering_3 <- as.numeric(household_power_consumption$Sub_metering_3)
 
-# Select the necessary variables for plot 1, in the time range from
+# Select the necessary variables for plot 1, in the time range requested for the excersise
+# %>% is the piping operator imported with the library dplyr
 df_selection <- household_power_consumption %>%
         select(fulldate, Sub_metering_1, Sub_metering_2, Sub_metering_3) %>%
         filter(fulldate >= "2007-02-01 00:00:00" & fulldate <= "2007-02-03 00:00:00")

@@ -1,5 +1,5 @@
 ###########################################################################################
-# Code to import household power consumption and create plot1, as defined in assignment 1 of
+# Code to import household power consumption and create plot4, as defined in assignment 1 of
 # the exploratory analysis course in Coursera.
 ###########################################################################################
 
@@ -12,6 +12,7 @@ household_power_consumption <- read.csv(paste0(path,"household_power_consumption
                                         sep=";", stringsAsFactors=FALSE)
 
 # Create unified date field and conversion to date type in one command
+# %>% is the piping operator imported with the library dplyr
 household_power_consumption$fulldate <- paste(household_power_consumption$Date,
                                               household_power_consumption$Time) %>% 
                                               dmy_hms()
@@ -23,7 +24,12 @@ df_selection <- household_power_consumption %>%
 
 # Batch convertion of the selection
 ## Create a data frame with the converted variables (everything but fulldate)
-num_variables <- as.data.frame(sapply(df_selection[,1:6], as.numeric), stringsAsFactors = F)
+## The conversion generates warnings because some of the variables contain "?" which 
+## indicates missing values. Wrapping the function in suppressWarnings() suppress the 
+## warnings. It's done more for aesthetic reasons in this case and can be skipped. 
+num_variables <- suppressWarnings(
+                        as.data.frame(sapply(df_selection[,1:6], as.numeric), stringsAsFactors = F)
+                        )
 ## Create final dataframe binding num variables and fulldate
 df_final <- cbind(fulldate = df_selection$fulldate, num_variables)
 
@@ -34,7 +40,7 @@ png(filename = "plot4.png")
 ## Set layout of the plot
 par(mfrow = c(2,2))
 
-attach(df_final)
+attach(df_final) #Attaching dataframe to keep notation compact
 ## Plot 1
 plot(x = fulldate,
      y = Global_active_power,
